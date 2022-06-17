@@ -3,19 +3,53 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Movies database</title>
     <!-- bootstrap css part-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/main.css">
   </head>
+
+
   <body>
-    <div class="container">
+
+    <div class="container mt-5">
       <h1>Search your favorite movies!</h1>
-      <input type="text">
+      <div class="container-fluid">
+        <input type="text" class="movie-input form-control" value="">
+        <button type="submit" class="search-btn btn btn-primary">Search</button>
+      </div>
+      <div class="row content-section justify-content-center"></div>
     </div>
-  
+
+
+    <!-- modal start -->
+    <div class="modal fade" id="movieDetailModal" tabindex="-1" aria-labelledby="movieDetailModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="movieDetailModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <img class="modal-img">
+            <p class="genre"></p>
+            <p class="synopsis"></p>
+            <p class="duration"></p>
+            <p class="rated"></p>
+            <p class="release-detail"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal end -->
+      
 
     <!-- bootstrap js part-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
   </body>
 </html>
