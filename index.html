@@ -14,33 +14,66 @@
 
     <div class="container mt-5">
       <h1>Search your favorite movies!</h1>
-      <div class="container-fluid">
-        <input type="text" class="movie-input form-control" value="">
-        <button type="submit" class="search-btn btn btn-primary">Search</button>
-      </div>
+        <div class="row">
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control search-btn" placeholder="Movies title here..." aria-label="Recipient's username with two button addons">
+            <button class="btn btn-outline-success" type="button">SEARCH</button>
+
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              OPTIONS
+            </button>
+
+            <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+              <li class="list-group-item">
+                <input class="form-check-input me-1 mx-3 preserve-search" type="checkbox">Preserve search history
+              </li>
+              <li>
+                <input class="form-check-input me-1 mx-3" type="checkbox">b
+              </li>
+              <li>
+                <input class="form-check-input me-1 mx-3" type="checkbox">c
+              </li>
+            </ul>            
+
+          </div>
+        </div>
+
       <div class="row content-section justify-content-center"></div>
     </div>
 
 
     <!-- modal start -->
     <div class="modal fade" id="movieDetailModal" tabindex="-1" aria-labelledby="movieDetailModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="movieDetailModalLabel">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <img class="modal-img">
-            <p class="genre"></p>
-            <p class="synopsis"></p>
-            <p class="duration"></p>
-            <p class="rated"></p>
-            <p class="release-detail"></p>
+            <div class="container-fluid">
+              <div class="row">
+
+                <div class="col-md">
+                  <img class="img-fluid img-modal">
+                </div>
+                <div class="col-md">
+                  <ul class="list-group">
+                    <li class="list-group-item genre"></li>
+                    <li class="list-group-item plot"></li>
+                    <li class="list-group-item rated"></li>
+                    <li class="list-group-item duration"></li>
+                    <li class="list-group-item release-detail"></li>
+                    <li class="list-group-item director"></li>
+                    <li class="list-group-item actors"></li>
+                    <li class="list-group-item writer"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>

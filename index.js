@@ -1,12 +1,11 @@
 const apiUrl = "https://www.omdbapi.com";
-
 const searchBtn = document.querySelector(".search-btn");
-searchBtn.addEventListener("click", (e) => {
-  console.log("search btn clicked");
-  const movieTitle = document.querySelector(".movie-input").value;
-  console.log(movieTitle);
-  getMovieByTitle(movieTitle);
-});
+// searchBtn.addEventListener("click", (e) => {
+//   console.log("search btn clicked");
+//   const movieTitle = document.querySelector(".movie-input").value;
+//   console.log(movieTitle);
+//   getMovieByTitle(movieTitle);
+// });
 
 function setAttributes(ele,attrs){
   for(const key in attrs){
@@ -50,13 +49,15 @@ function createMovieFrame(movieDetail){
   moreDetailBtn.textContent = "More Detail";
 
   // append
-  contentSection.appendChild(col);
-  col.appendChild(card);
-  card.appendChild(poster);
-  card.appendChild(cardBody);
-  cardBody.appendChild(cardTitle);
-  cardBody.appendChild(cardSubTitle);
-  cardBody.appendChild(moreDetailBtn);
+  if(preserveLog===true){
+    contentSection.appendChild(col);
+    col.appendChild(card);
+    card.appendChild(poster);
+    card.appendChild(cardBody);
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardSubTitle);
+    cardBody.appendChild(moreDetailBtn);
+  }
 
   showMovieDetail(moreDetailBtn,movieDetail);
 }
@@ -66,21 +67,27 @@ function showMovieDetail(moreDetailBtn,movieDetail){
   moreDetailBtn.addEventListener("click",() => {
     console.log("detail btn clicked!");
 
-    const modalImg = document.querySelector(".modal-img");
+    const imgModal = document.querySelector(".img-modal");
     const movieDetailTitle = document.getElementById("movieDetailModalLabel");
-    const synopsis = document.querySelector(".synopsis");
+    const plot = document.querySelector(".plot");
     const genre = document.querySelector(".genre");
     const rated = document.querySelector(".rated");
     const duration = document.querySelector(".duration");
     const releaseDetail = document.querySelector(".release-detail");
+    const actors = document.querySelector(".actors");
+    const director = document.querySelector(".director");
+    const writer = document.querySelector(".writer");
     
-    modalImg.setAttribute("src", movieDetail.Poster);
+    imgModal.setAttribute("src", movieDetail.Poster);
     movieDetailTitle.textContent = movieDetail.Title;
-    synopsis.textContent = movieDetail.Plot;
+    plot.textContent = movieDetail.Plot;
     genre.textContent = movieDetail.Genre;
-    rated.textContent = movieDetail.Rated;
+    rated.innerHTML =  `<strong>${movieDetail.Rated}</strong>`;
     duration.textContent = movieDetail.Runtime;
-    releaseDetail.textContent = movieDetail.Released;
+    releaseDetail.textContent =  "Released: "+ movieDetail.Released;
+    actors.textContent = "Actors: " + movieDetail.Actors;
+    director.textContent = "Director: " + movieDetail.Director;
+    writer.textContent = "Writer: " + movieDetail.Writer;
 
   })
 }
@@ -109,3 +116,4 @@ function getMovieByTitle(movieTitle){
     .catch(error => console.log('error', error));
 }
 
+getMovieByTitle("avengers");
