@@ -96,13 +96,35 @@ function getMovieById(movieId,apiKey){
 // search any movies by title
 function getMovieByTitle(movieTitle){
   const apiKey = "1a202bd2";
+  // get a data from this API
   fetch(`${apiUrl}/?apikey=${apiKey}&s=${movieTitle}`)
-    .then(response => response.json())
+    // then we will receive a "http response"
+    .then(response => {
+      // we need to check if the response is okay(2xx) or not
+      if(!response.ok){
+        throw new Error(`error response status is ${response.status}`);
+      }
+
+      console.log(`the response is ${response.status}`);
+      return response.json();
+    })
+    // if everything in above is alright thus
+    // we can assure that we get the actual data
     .then(movies => {
+      console.log(movies,typeof(movies.Response));
+      // if the movie is not found
+      if(movies.Response==="False"){
+        // the log this message "Error: Movie not found!"
+        throw new Error(`${movies.Error}`);
+      }
       movies["Search"].forEach(movie => {
         getMovieById(movie["imdbID"],apiKey);
       });
     })
-    .catch(err => console.error(err))
+    // if there is something wrong with all above
+    .catch(err => {
+      console.error(err);
+      alert(err);
+    })
   ;
 }
