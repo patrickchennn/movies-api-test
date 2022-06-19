@@ -1,23 +1,17 @@
 const apiUrl = "https://www.omdbapi.com";
 
 const searchBtn = document.querySelector(".search-btn");
-// searchBtn.addEventListener("click", (e) => {
-//   console.log("search btn clicked");
-//   const movieTitle = document.querySelector(".movie-input").value;
-//   console.log(movieTitle);
-//   getMovieByTitle(movieTitle);
-// });
-
-function setAttributes(ele,attrs){
-  for(const key in attrs){
-    // console.log(key,attrs[key]);
-    ele.setAttribute(key,attrs[key]);
-  }
-}
+searchBtn.addEventListener("click", (e) => {
+  // console.log("search btn clicked");
+  const movieTitle = document.querySelector(".movie-input").value;
+  // console.log(movieTitle);
+  getMovieByTitle(movieTitle);
+});
 
 function createMovieFrame(movieDetail){
   const contentSection = document.querySelector(".content-section");
 
+  // creating movie card
   const cardContainer = document.createElement("div");
   cardContainer.className = "card col-3 my-3 w-30";
   cardContainer.innerHTML = `
@@ -35,15 +29,13 @@ function createMovieFrame(movieDetail){
   const modalBtn = cardContainer.getElementsByTagName("button")[0];
   // console.log(modalBtn);
 
+  // show the detail of the movie
   showMovieDetail(modalBtn,movieDetail)
 }
 
 function showMovieDetail(modalBtn,movieDetail){
   const movieModalContainer = document.querySelector(".movie-modal-container");
   const modalBody = document.querySelector(".modal-body");
-  const modalCloseBtn = document.querySelector(".modal-close-btn");
-  
-  // console.log(modalCloseBtn);
   
   const containerModal = document.createElement("div");
   modalBtn.addEventListener("click", function(){
@@ -114,5 +106,3 @@ function getMovieByTitle(movieTitle){
     .catch(err => console.error(err))
   ;
 }
-
-getMovieByTitle("avengers");
