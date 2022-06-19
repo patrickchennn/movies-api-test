@@ -1,4 +1,5 @@
 const apiUrl = "https://www.omdbapi.com";
+
 const searchBtn = document.querySelector(".search-btn");
 // searchBtn.addEventListener("click", (e) => {
 //   console.log("search btn clicked");
@@ -17,103 +18,101 @@ function setAttributes(ele,attrs){
 function createMovieFrame(movieDetail){
   const contentSection = document.querySelector(".content-section");
 
-  const col = document.createElement("div");
-  col.className = "col-md-3 my-3";
+  const cardContainer = document.createElement("div");
+  cardContainer.className = "card col-3 my-3 w-30";
+  cardContainer.innerHTML = `
+    <div class="col card  my-2">
+      <img src="${movieDetail.Poster}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">${movieDetail.Title}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">${movieDetail.Year}</h6>
+        <button type="button" class="btn btn-primary movie-detail-modal-btn" data-bs-toggle="modal" data-bs-target="#movieDetailModal">More Detail</button>
+      </div>
+    </div>`
+  ;
+  contentSection.appendChild(cardContainer);
+  
+  const modalBtn = cardContainer.getElementsByTagName("button")[0];
+  // console.log(modalBtn);
 
-  const card = document.createElement("div");
-  card.className = "col card";
-
-  const poster = document.createElement("img");
-  poster.setAttribute("src",movieDetail.Poster);
-  poster.className = "card-img-top";
-
-  const cardBody = document.createElement("div");
-  cardBody.className = "card-body";
-
-  const cardTitle = document.createElement("h5");
-  cardTitle.className = "card-title";
-  cardTitle.textContent = movieDetail.Title;
-
-  const cardSubTitle = document.createElement("h6");
-  cardSubTitle.className = "card-subtitle mb-2 text-muted"
-  cardSubTitle.textContent = movieDetail.Year;
-
-  const moreDetailBtn = document.createElement("button");
-  setAttributes(moreDetailBtn,{
-    "type":"button",
-    "class":"btn btn-primary",
-    "data-bs-toggle":"modal",
-    "data-bs-target":"#movieDetailModal"
-  });
-
-  moreDetailBtn.textContent = "More Detail";
-
-  // append
-  if(preserveLog===true){
-    contentSection.appendChild(col);
-    col.appendChild(card);
-    card.appendChild(poster);
-    card.appendChild(cardBody);
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardSubTitle);
-    cardBody.appendChild(moreDetailBtn);
-  }
-
-  showMovieDetail(moreDetailBtn,movieDetail);
+  showMovieDetail(modalBtn,movieDetail)
 }
 
+function showMovieDetail(modalBtn,movieDetail){
+  const movieModalContainer = document.querySelector(".movie-modal-container");
+  const modalBody = document.querySelector(".modal-body");
+  const modalCloseBtn = document.querySelector(".modal-close-btn");
+  
+  // console.log(modalCloseBtn);
+  
+  const containerModal = document.createElement("div");
+  modalBtn.addEventListener("click", function(){
+    const modalTitle = document.querySelector(".modal-title");
+    modalTitle.textContent = movieDetail.Title;
+    containerModal.className = "container-fluid";
+    containerModal.innerHTML = `
+      <div class="row">
+        <div class="col-md">
+          <img class="img-fluid img-modal" src=${movieDetail.Poster}>
+        </div>
+        
+        <div class="col-md">
+          <ul class="list-group">
+            <li class="list-group-item genre"><strong>Genre: </strong>${movieDetail.Genre}</li>
+            <li class="list-group-item plot"><strong>Plot: </strong>${movieDetail.Plot}</li>
+            <li class="list-group-item rated"><strong>Rated: </strong>${movieDetail.Rated}</li>
+            <li class="list-group-item duration"><strong>Duration: </strong>${movieDetail.Runtime}</li>
+            <li class="list-group-item release-detail"><strong>Release: </strong>${movieDetail.Released}</li>
+            <li class="list-group-item director"><strong>Director: </strong>${movieDetail.Director}</li>
+            <li class="list-group-item actors"><strong>Actors: </strong>${movieDetail.Actors}</li>
+            <li class="list-group-item writer"><strong>Writer: </strong>${movieDetail.Writer}</li>
+          </ul>
+        </div>
+      </div>
+      `
+    ;
 
-function showMovieDetail(moreDetailBtn,movieDetail){
-  moreDetailBtn.addEventListener("click",() => {
-    console.log("detail btn clicked!");
+    modalBody.appendChild(containerModal);
+  });
 
-    const imgModal = document.querySelector(".img-modal");
-    const movieDetailTitle = document.getElementById("movieDetailModalLabel");
-    const plot = document.querySelector(".plot");
-    const genre = document.querySelector(".genre");
-    const rated = document.querySelector(".rated");
-    const duration = document.querySelector(".duration");
-    const releaseDetail = document.querySelector(".release-detail");
-    const actors = document.querySelector(".actors");
-    const director = document.querySelector(".director");
-    const writer = document.querySelector(".writer");
-    
-    imgModal.setAttribute("src", movieDetail.Poster);
-    movieDetailTitle.textContent = movieDetail.Title;
-    plot.textContent = movieDetail.Plot;
-    genre.textContent = movieDetail.Genre;
-    rated.innerHTML =  `<strong>${movieDetail.Rated}</strong>`;
-    duration.textContent = movieDetail.Runtime;
-    releaseDetail.textContent =  "Released: "+ movieDetail.Released;
-    actors.textContent = "Actors: " + movieDetail.Actors;
-    director.textContent = "Director: " + movieDetail.Director;
-    writer.textContent = "Writer: " + movieDetail.Writer;
-
-  })
+  movieModalContainer.addEventListener('click', function(e){
+    const currTarget = e.target;
+    const currTargetClass = currTarget.classList;
+    console.log(currTargetClass);
+    if(currTargetClass.contains("movie-modal-container") || currTargetClass.contains("modal-close-btn") || currTargetClass.contains("btn-close")){
+      // console.log(`contains ${currTarget}`);
+      containerModal.remove()
+    }
+    console.log(currTarget);
+  }); 
 }
 
 function getMovieById(movieId,apiKey){
-  console.log(movieId);
-  const promise = fetch(`${apiUrl}/?apikey=${apiKey}&i=${movieId}`);
-  promise.then(response => response.json())
-    .then(movieDetail => {
-      console.log(movieDetail);
-      createMovieFrame(movieDetail);
-    }).catch(err => console.error(err))
+  // console.log(movieId);
+  fetch(`${apiUrl}/?apikey=${apiKey}&i=${movieId}`)
+    .then(response => response.json())
+    .then(movies => {
+      // console.log(movies);
+      createMovieFrame(movies);
+      // showMovieDetail(movies);
+    })
+    .catch(err => console.error(err))
+  ;
 
 }
 
 // search any movies by title
 function getMovieByTitle(movieTitle){
   const apiKey = "1a202bd2";
-  const promise = fetch(`${apiUrl}/?apikey=${apiKey}&s=${movieTitle}`);
-  promise.then(response => response.json())
-    .then(result => {
-      result["Search"].forEach(movie => {
+  fetch(`${apiUrl}/?apikey=${apiKey}&s=${movieTitle}`)
+    .then(response => response.json())
+    .then(movies => {
+      movies["Search"].forEach(movie => {
         getMovieById(movie["imdbID"],apiKey);
       });
     })
-    .catch(error => console.log('error', error));
+    .catch(err => console.error(err))
+  ;
 }
 
 getMovieByTitle("avengers");
